@@ -30,7 +30,7 @@ Feature: Outbound Calls
 
     @critical
     Scenario: Agent can drop the call
-        Given: "agent" has a call with "client"
+        Given "agent" has a call with "client"
         When "agent" drops the call
         Then "client" should not hear "agent" speaking
         # and probably sees something
@@ -39,7 +39,7 @@ Feature: Outbound Calls
 
     @major
     Scenario: The call should be terminated when client drops the call
-        Given: "agent" has a call with "client"
+        Given "agent" has a call with "client"
         When "client" drops the call
         Then "agent" should not hear "client" speaking
         # and probably sees something
@@ -53,7 +53,7 @@ Feature: Outbound Calls
 
     @moderate
     Scenario: Agent should see timer showing call duration properly
-        Given: "agent" has a call with "client"
+        Given "agent" has a call with "client"
         Then "agent" should see timer showing call duration properly
 
     @major
@@ -92,7 +92,7 @@ Feature: Outbound Calls
 
     @moderate
     Scenario: Agent sees error message if service is down
-        Given: "agent" has a call with "client"
+        Given "agent" has a call with "client"
         When service is down
         Then "agent" should see error message "Something went wrong, try again later"
         And "agent" should see link "Contact support"
