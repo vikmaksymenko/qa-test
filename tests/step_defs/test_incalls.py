@@ -195,7 +195,7 @@ def user_should_see_changed_action_button(user: str, button: str, sessionManager
 
 def init_sessions_in_parallel(names: list, sessionManager: SessionManager) -> None:
     """
-    Initialize sessions in parallel
+    Initialize sessions in parallel for speeding up the tests
 
     Parameters
     ----------
