@@ -16,7 +16,7 @@ from tests.utils.session_provider import SessionProvider
 scenarios("../features/front/standard_incall_actions.feature")
 
 
-@pytest.fixture
+@pytest.fixture(scope="module")
 def sessionManager():
     """
     Fixture to manage sessions
@@ -29,10 +29,6 @@ def sessionManager():
 
         user_gives_call("caller", "recipient", sessions)
         user_accepts_call("recipient", "caller", sessions)
-
-        user_should_be_on_call("caller", sessions)
-        user_should_be_on_call("recipient", sessions)
-
         yield sessions
     finally:
         sessions.quit()
@@ -84,18 +80,37 @@ def user_gives_call(
     RingingPage
 
     """
-    caller_session = sessionManager.get(caller)
     recipient_account = AccountProvider.get_instance().get_account(recipient)
+    return user_gives_call_by_number(caller, recipient_account.phone, sessionManager)
 
+
+@when(parsers.parse('{caller} calls by number {number_or_name}'))
+def user_gives_call_by_number(
+    caller: str, number_or_name: str, sessionManager: SessionManager
+) -> RingingPage:
+    """
+    Call by number or name
+
+    Parameters
+    ----------
+    caller : str
+        Name of the caller
+    number_or_name : str
+        Number or name to call
+
+    Returns
+    -------
+    RingingPage
+
+    """
     ringing_page = (
-        KeyboardPage(caller_session)
+        KeyboardPage(sessionManager.get(caller))
         .wait_for_page_to_load()
-        .call_to(recipient_account.phone)
+        .call_to(number_or_name)
     )
     return ringing_page.wait_for_page_to_load().should_have_contact_name(
-        recipient_account.phone
+        number_or_name
     )
-
 
 @when(parsers.parse("{recipient} accepts the call from {caller} by number"))
 def user_accepts_call(
@@ -117,12 +132,13 @@ def user_accepts_call(
     """
     caller_account = AccountProvider.get_instance().get_account(caller)
 
-    ringing_page = RingingIncomingPage(sessionManager.get(recipient))
-    return ringing_page.wait_for_page_to_load().should_have_contact_name(
+    ringing_incoming_page = RingingIncomingPage(sessionManager.get(recipient))
+    return ringing_incoming_page.wait_for_page_to_load().should_have_contact_name(
         caller_account.phone
     ).pickup_call()
 
 
+@given(parsers.parse("{user} should be on call"))
 @then(parsers.parse("{user} should be on call"))
 def user_should_be_on_call(user: str, sessionManager: SessionManager) -> InCallPage:
     """
@@ -141,6 +157,41 @@ def user_should_be_on_call(user: str, sessionManager: SessionManager) -> InCallP
     in_call_page = InCallPage(session)
     return in_call_page.wait_for_page_to_load()
 
+
+@when(parsers.parse("{user} clicks on \"{button}\" action button"))
+def user_clicks_on_action_button(user: str, button: str, sessionManager: SessionManager) -> InCallPage:
+    """
+    User clicks on a button
+
+    Parameters
+    ----------
+    user : str
+        Name of the user
+    button : str
+        Name of the button
+
+    Returns
+    -------
+    InCallPage
+    """
+    return InCallPage(sessionManager.get(user)).click_action_button(button)
+
+@then(parsers.parse("{user} should see \"{button}\" action button toggles in red"))
+def user_should_see_changed_action_button(user: str, button: str, sessionManager: SessionManager) -> InCallPage:
+    """
+    User should see that the button changed
+    Parameters
+    ----------
+    user : str
+        Name of the user
+    button : str
+        Name of the button
+
+    Returns
+    -------
+    InCallPage
+    """
+    return InCallPage(sessionManager.get(user)).should_have_action_button(f'un{button}')
 
 def init_sessions_in_parallel(names: list, sessionManager: SessionManager) -> None:
     """

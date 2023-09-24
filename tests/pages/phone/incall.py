@@ -29,3 +29,39 @@ class InCallPage(RingingPage):
             EC.visibility_of_element_located(self._timer)
         )
         return self
+    
+    def click_action_button(self, name: str) -> "InCallPage":
+        """
+        Click on a button
+
+        Parameters
+        ----------
+        name : str
+            Name of the button
+
+        Returns
+        -------
+        InCallPage
+        """
+        name = name.lower().replace(" ", "-")
+        self._driver.find_element(By.CSS_SELECTOR, f"[data-test='action-{name}']").click()
+        return self
+    
+    def should_have_action_button(self, name: str) -> "InCallPage":
+        """
+        Assert that the page has a button
+
+        Parameters
+        ----------
+        name : str
+            Name of the button
+
+        Returns
+        -------
+        InCallPage
+        """
+        name = name.lower().replace(" ", "-")
+        WebDriverWait(self._driver, Timeouts.ELEMENT_VISIBILITY()).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, f"[data-test='action-{name}']"))
+        )
+        return self

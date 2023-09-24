@@ -28,6 +28,7 @@ class RingingIncomingPage(RingingPage):
         WebDriverWait(self._driver, Timeouts.ELEMENT_VISIBILITY()).until(
             EC.visibility_of_element_located(self._pickup_button)
         )
+        return self
 
     def pickup_call(self) -> InCallPage:
         """

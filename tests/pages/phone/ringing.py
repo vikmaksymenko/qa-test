@@ -32,6 +32,7 @@ class RingingPage(BasePhonePage):
         WebDriverWait(self._driver, Timeouts.ELEMENT_VISIBILITY()).until(
             EC.visibility_of_element_located(self._hangup_button)
         )
+        return self
 
     def should_have_contact_name(self, name: str) -> "RingingPage":
         """
