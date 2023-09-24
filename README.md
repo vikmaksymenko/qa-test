@@ -19,3 +19,19 @@ Test cases for all tests are described in Gherkin language and can be found in t
 - features/front has features for test-front.md
 - features/manual has features for test-manual.md
 
+# Automation
+
+## Front-end automation 
+
+I was thinking about using Playwright for automated testing, because it allows to automate both UI and API test. However, after careful consideration, I decided to use Selenium for front-end automation. Here are the reaisons for that. 
+1. From my perspective, the most important validation for the phone is to check that caller and recipient can hear each other. In order to achieve this, we need to record audio on hosts, and I'm not sure that it is possible withing the same host. So I would suggest using Docker containers for caller and recipient sessions. Selenium grid can be run in auto-scalable group. Alternatively, [Selenoid](https://aerokube.com/selenoid/latest/) can be used for the same purpose. However, browser images should be extended with extra tools like pulseaudio, ffmpeg, etc. I'm not aware of other tools besides Selenium that allow creation of sessions on different hosts (maybe Playwright can, but investigation is required).
+This audion check is not implemented in the test task solution, because it's realization is time consuming and requires extra resources. Also, it's not specified in test plan. If the tests in test plans are focusing to check front-end functionality isolated with mocked back-end, then the audio checks are redundant.
+2. There are web, mobile and desktop versions of the phone. Selenium and Appium can be used for all of them. Playwright has experimental support of Android and Electron apps, but it is not production-ready yet.\
+
+### Testing infrastructure
+
+TODO: update with auto-scaled Selenium grid
+
+```bash
+docker run -d -p 4444:4444 -p 7900:7900 -e SE_NODE_MAX_SESSIONS=2 -e SE_NODE_OVERRIDE_MAX_SESSIONS=true  --shm-size="2g" selenium/standalone-chrome:latest
+```

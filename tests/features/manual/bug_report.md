@@ -1,37 +1,37 @@
-**AIRCALL-1** - Agent may give a call to himself
+**AIRCALL-1** - Recipient hears a sound of caller's keyboard when the caller is on mute
 ================================================
 
 Description
 -----------
 
-User can type his line number and call himself.
+If caller is on mute, recipient still hears a sound of caller's keyboard.
 
 Steps to reproduce
 ------------------
 
-1. Login to the phone application
-2. Go to the keypad page
-3. Type the line number in the input field
-4. Click the call button
+1. Caller is logged in and on the call with recipient.
+2. Caller presses mute button 
+3. Caller opens Keypad and presses any keys  
 
 Expected result
 ---------------
 
-User should see warning message that he is calling himself, call button should be disabled.
+Recipient should not hear a sound of caller's keyboard.
 
 Actual result
 -------------
 
-User can call himself and hear long beeps. If the user drops the call he may hear the inbound call sound.
+Recipient hears a sound of caller's keyboard.
 
 Severity
 --------
-Minor
+Moderate
 
 Priority
 --------
-Low
+Medium
 
 Environment 
 -----------
-Windows desktop app version 2.36.3
+* Chrome 
+* production environment

@@ -1,65 +1,65 @@
 Feature: Outbound Calls
-    As an agent,
+    As an caller,
     I want to be able to make outbound calls to customers,
     So that we may have a verbal communication.
 
     Background:
-        Given "agent" is logged in to the phone
-        And "agent" is on "keyboard" page
-        And "client" can accept calls # for automation we'll use another client. For manual testing it can be cellular number as well
+        Given "caller" is logged in to the phone
+        And "caller" is on "keyboard" page
+        And "recipient" can accept calls # for automation we'll use another recipient. For manual testing it can be cellular number as well
 
     @critical
-    Scenario: Agent may give a call to a client and client may accept it
-        When "agent" calls to "client"
-        Then "client" should see "agent" ringing
+    Scenario: caller may give a call to a recipient and recipient may accept it
+        When "caller" calls to "recipient"
+        Then "recipient" should see "caller" ringing
 
-        When "client" accepts call
-        Then "agent" should hear "client" speaking
-        And "client" should hear "agent" speeking
+        When "recipient" accepts call
+        Then "caller" should hear "recipient" speaking
+        And "recipient" should hear "caller" speeking
 
     @critical
-    Scenario: Agent may give a call to a client and client may decline it
-        When "agent" calls to "client"
-        Then "client" should see "agent" ringing
+    Scenario: caller may give a call to a recipient and recipient may decline it
+        When "caller" calls to "recipient"
+        Then "recipient" should see "caller" ringing
 
-        When "client" declines call
-        Then "agent" should not hear "client" speaking
+        When "recipient" declines call
+        Then "caller" should not hear "recipient" speaking
         # and probably sees something
-        And "client" should not hear "agent" speeking
+        And "recipient" should not hear "caller" speeking
     # and probably sees something
 
     @critical
-    Scenario: Agent can drop the call
-        Given "agent" has a call with "client"
-        When "agent" drops the call
-        Then "client" should not hear "agent" speaking
+    Scenario: caller can drop the call
+        Given "caller" has a call with "recipient"
+        When "caller" drops the call
+        Then "recipient" should not hear "caller" speaking
         # and probably sees something
-        And "client" should not hear "agent" speaking
-    # and probably sees something
-
-    @major
-    Scenario: The call should be terminated when client drops the call
-        Given "agent" has a call with "client"
-        When "client" drops the call
-        Then "agent" should not hear "client" speaking
-        # and probably sees something
-        And "client" should not hear "agent" speaking
+        And "recipient" should not hear "caller" speaking
     # and probably sees something
 
     @major
-    Scenario: Agent hears long signal while waiting
-        When "agent" calls to "client"
-        Then "agent" hears long signal while waiting for call to be accepted
+    Scenario: The call should be terminated when recipient drops the call
+        Given "caller" has a call with "recipient"
+        When "recipient" drops the call
+        Then "caller" should not hear "recipient" speaking
+        # and probably sees something
+        And "recipient" should not hear "caller" speaking
+    # and probably sees something
+
+    @major
+    Scenario: caller hears long signal while waiting
+        When "caller" calls to "recipient"
+        Then "caller" hears long signal while waiting for call to be accepted
 
     @moderate
-    Scenario: Agent should see timer showing call duration properly
-        Given "agent" has a call with "client"
-        Then "agent" should see timer showing call duration properly
+    Scenario: caller should see timer showing call duration properly
+        Given "caller" has a call with "recipient"
+        Then "caller" should see timer showing call duration properly
 
     @major
-    Scenario Outline: Agent can not call to invalid number
-        When "agent" types "<number>" to the number field
-        Then "agent" should hear error message "calling to invalid number"
+    Scenario Outline: caller can not call to invalid number
+        When "caller" types "<number>" to the number field
+        Then "caller" should hear error message "calling to invalid number"
 
         Examples:
             | number               |
@@ -68,9 +68,9 @@ Feature: Outbound Calls
             | +1111111111          |
 
     @major
-    Scenario Outline: Agent can not call to short or special numbers
-        When "agent" types "<number>" to the number field
-        Then "agent" should hear error message "caling to short or special numbers is not allowed"
+    Scenario Outline: caller can not call to short or special numbers
+        When "caller" types "<number>" to the number field
+        Then "caller" should hear error message "caling to short or special numbers is not allowed"
 
         Examples:
             | number |
@@ -78,44 +78,44 @@ Feature: Outbound Calls
             | *111#  |
 
     @moderate
-    Scenario: Agent may call to contact
-        When "agent" calls to "client" by contact name
-        Then "client" should see "agent" ringing
-        And "agent" should see "client" phone number and name
+    Scenario: caller may call to contact
+        When "caller" calls to "recipient" by contact name
+        Then "recipient" should see "caller" ringing
+        And "caller" should see "recipient" phone number and name
 
 
     @moderate
-    Scenario: Agent may call to teammate
-        When "agent" calls to "client" by teammate name
-        Then "client" should see "agent" ringing
-        And "agent" should see "client" phone number and name
+    Scenario: caller may call to teammate
+        When "caller" calls to "recipient" by teammate name
+        Then "recipient" should see "caller" ringing
+        And "caller" should see "recipient" phone number and name
 
     @moderate
-    Scenario: Agent sees error message if service is down
-        Given "agent" has a call with "client"
+    Scenario: caller sees error message if service is down
+        Given "caller" has a call with "recipient"
         When service is down
-        Then "agent" should see error message "Something went wrong, try again later"
-        And "agent" should see link "Contact support"
+        Then "caller" should see error message "Something went wrong, try again later"
+        And "caller" should see link "Contact support"
 
     @low
-    Scenario: Agent can't call himself
-        When "agent" calls to "agent"
-        Then "agent" should see error message "You can not call yourself"
+    Scenario: caller can't call himself
+        When "caller" calls to "caller"
+        Then "caller" should see error message "You can not call yourself"
     # It's funny, but it right now it's possible to call yourself
 
     @low
-    Scenario: Agent's number phone code should be selected by default
-        When "agent" cleans the number field
-        Then "agent" should see his phone code selected by default
+    Scenario: caller's number phone code should be selected by default
+        When "caller" cleans the number field
+        Then "caller" should see his phone code selected by default
 
     @low
-    Scenario: Agent should see phone code of the country parsed correctly
-        When "agent" types "+1" to the number field
-        Then "agent" should see phone code of "United States" parsed correctly
+    Scenario: caller should see phone code of the country parsed correctly
+        When "caller" types "+1" to the number field
+        Then "caller" should see phone code of "United States" parsed correctly
 
-        When "agent" clears the number field
-        And "agent" types "+34" to the number field
-        Then "agent" should see phone code of "Spain" parsed correctly
+        When "caller" clears the number field
+        And "caller" types "+34" to the number field
+        Then "caller" should see phone code of "Spain" parsed correctly
 
         Examples:
             | number               |

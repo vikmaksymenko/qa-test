@@ -3,11 +3,11 @@
 
 ## Introduction 
 
-Test plan for testing the feature of calling from the Aircall applicatio to clients. 
+Test plan for testing the feature of calling from the Aircall applicatio to recipients. 
 
 ## Test Items
 
-According to the requirements, as an agent, you are using the phone application to make calls to clients. 
+According to the requirements, as an caller, you are using the phone application to make calls to recipients. 
 You have a number available that allows you to call other numbers and all in calls functionalities are available.
 
 ## Features to be Tested
@@ -24,9 +24,9 @@ You have a number available that allows you to call other numbers and all in cal
 ## Approach
 
 In order to make sure that the feature is working as expected, we will focus on the following areas:
-- Agent may give a call
-- Target client may receive or decline a call
-- Agent and client may talk to each other and hear each other
+- caller may give a call
+- Target recipient may receive or decline a call
+- caller and recipient may talk to each other and hear each other
 
 ## Item Pass/Fail Criteria
 
@@ -35,4 +35,4 @@ The testing is considered done when all the tests passed and identified defects 
 ## Environmental Needs
 
 - Environment with the AirCall application installed. The application version should have calling function available.
-- Logins for agent and client. 
+- Logins for caller and recipient. 
