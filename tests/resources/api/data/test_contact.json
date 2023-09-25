@@ -1,0 +1,25 @@
+{
+    "id": 130626794,
+    "first_name": "TestName",
+    "last_name": "TestLastName",
+    "company_name": null,
+    "information": "TestInfo",
+    "is_shared": true,
+    "direct_link": "https://api.aircall.io/v1/contacts/130626794",
+    "created_at": 1672995969,
+    "updated_at": 1672995969,
+    "phone_numbers": [
+        {
+            "id": 258591488,
+            "label": "TestNumber",
+            "value": "+33652556756"
+        }
+    ],
+    "emails": [
+        {
+            "id": 258591489,
+            "label": "Office",
+            "value": "test@acme.com"
+        }
+    ]
+}

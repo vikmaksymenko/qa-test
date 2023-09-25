@@ -1,5 +1,8 @@
-# Accounts JSON file. TODO: read from environment variable
+# Accounts JSON file.
 accounts.json
+
+# Selenium grid assets
+infra/assets
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

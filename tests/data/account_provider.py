@@ -1,6 +1,8 @@
-import json
-from tests.data.account import Account
 import threading
+import os
+
+from tests.data.account import Account
+from tests.utils.utils import load_json
 
 class AccountProvider: 
     """
@@ -53,7 +55,7 @@ class AccountProvider:
         else:
             AccountProvider.__instance = self
             # TODO: load path to file from config 
-            self.__accounts = self.__load_accounts('tests/resources/accounts.json')
+            self.__accounts = self.__load_accounts(os.getenv('PHONE_ACCOUNTS_FILE'))
 
     def get_account(self, name: str) -> Account:
         """
@@ -84,9 +86,8 @@ class AccountProvider:
         -------
         dict
         """
-        with open(path_to_file) as json_file:
-            data = json.load(json_file)
-            result = {}
-            for name, account in data.items():
-                result[name] = Account(**account)
-            return result
+        data = load_json(path_to_file)
+        result = {}
+        for name, account in data.items():
+            result[name] = Account(**account)
+        return result

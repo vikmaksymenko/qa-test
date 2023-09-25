@@ -1,3 +1,5 @@
+import os
+
 from tests.pages.base import BasePage
 from selenium import webdriver
 
@@ -11,7 +13,7 @@ class BasePhonePage(BasePage):
     Attributes
     ----------
     _base_url : str
-        Base url of the application: https://phone.aircall.io
+        Base url of the application: PHONE_BASE_URL env variable or https://phone.aircall.io
 
     _endpoint : str
         Endpoint of the page
@@ -22,5 +24,5 @@ class BasePhonePage(BasePage):
 
     def __init__(self, driver: webdriver.Remote) -> None:
         BasePage.__init__(self, driver)
-        self._base_url = "https://phone.aircall.io"
+        self._base_url = os.getenv('PHONE_BASE_URL') or "https://phone.aircall.io"
         self._endpoint = ""

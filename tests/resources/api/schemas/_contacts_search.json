@@ -1,0 +1,61 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "contacts": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "integer"},
+                    "first_name": {"type": "string"},
+                    "last_name": {"type": ["string", "null"]},
+                    "company_name": {"type": ["string", "null"]},
+                    "information": {"type": ["string", "null"]},
+                    "is_shared": {"type": "boolean"},
+                    "direct_link": {"type": "string"},
+                    "created_at": {"type": "integer"},
+                    "updated_at": {"type": "integer"},
+                    "phone_numbers": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "integer"},
+                                "label": {"type": "string"},
+                                "value": {"type": "string"}
+                            },
+                            "required": ["id", "label", "value"]
+                        }
+                    },
+                    "emails": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "id": {"type": "integer"},
+                                "label": {"type": "string"},
+                                "value": {"type": "string"}
+                            },
+                            "required": ["id", "label", "value"]
+                        }
+                    }
+                },
+                "required": ["id", "first_name", "last_name", "is_shared", "direct_link", "created_at", "updated_at", "phone_numbers", "emails"]
+            }
+        },
+        "meta": {
+            "type": "object",
+            "properties": {
+                "count": {"type": "integer"},
+                "total": {"type": "integer"},
+                "current_page": {"type": "integer"},
+                "per_page": {"type": "integer"},
+                "next_page_link": {"type": ["string", "null"]},
+                "previous_page_link": {"type": ["string", "null"]}
+            },
+            "required": ["count", "total", "current_page", "per_page"]
+        }
+    },
+    "required": ["contacts", "meta"]
+}

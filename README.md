@@ -56,3 +56,78 @@ docker run --rm -d --name selenium-docker -p 4444:4444 `
     -v /var/run/docker.sock:/var/run/docker.sock `
     selenium/standalone-docker:latest
 ```
+
+### Preparing test data 
+
+In order to run tests, you need to create a test account and create a JSON file `accounts.json` with the test data in the following format:
+
+```json
+{
+    "<USER_NAME>": {
+        "email": "<EMAIL>",
+        "password": "<PASSWORD>",
+        "phone": "<PHONE>",
+        "id": <USER_ID:int>,
+        "company_id": <COMPANY_ID:int>
+    },
+    "<OTHER_USER>": {
+        ...
+    }
+}
+```
+Notice that the user name must match to the one, specified in the feature files.
+The path to the file should be specified in the env variable `PHONE_ACCOUNTS_FILE` or in the `.env`` file in the root of the project.
+
+Additionaly, you may update the base URL to the phone by setting `PHONE_BASE_URL` env variable. Default value is `https://phone.aircall.io/`.
+
+### Running tests
+
+#### Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+#### Run tests (Windows)
+
+```bash
+python -m pytest .\tests\step_defs\test_incalls.py
+```
+
+#### Run tests (MaoOS and Linux)
+
+
+```bash
+python -m pytest tests/step_defs/test_incalls.py
+```
+
+
+### Running tests in parallel 
+
+Test parallelization is not implemented due to the lack ot testing accounts. 
+
+
+## API Tests
+
+### Prerequisites
+
+Set the following environment variables or add them to the `.env` file in the root of the project:
+* `API_BASE_URL` - base URL for the API. Default value is `https://api.aircall.io/`.
+* `API_ID` - API ID
+* `API_TOKEN` - API token
+
+### Running tests
+
+Install dependencies similarly to the front-end tests and run the following command:
+
+#### Run tests (Windows)
+
+```bash
+python -m pytest .\tests\step_defs\test_api.py
+```
+
+#### Run tests (MaoOS and Linux)
+
+
+```bash
+python -m pytest tests/step_defs/test_api.py
+```

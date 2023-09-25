@@ -4,7 +4,7 @@ from tests.pages.phone.keyboard import KeyboardPage
 from tests.pages.phone.onboarding import OnboardingPage
 from tests.pages.phone.phone_base import BasePhonePage
 from tests.utils.int_api.id_api import IdApi
-from tests.utils.time_utils import TimeUtils
+from tests.utils.utils import current_time_milis
 
 from selenium import webdriver
 
@@ -36,13 +36,13 @@ class LoginPage(BasePhonePage):
         -------
         OnboardingPage or InCallPage depending on the skipWizard parameter
         """
-        current_time_milis = TimeUtils.current_time_milis()
+        current_time = current_time_milis()
         login_response = IdApi.login(account.email, account.password)
 
-        login_data = {"data": login_response, "lastUpdated": current_time_milis}
+        login_data = {"data": login_response, "lastUpdated": current_time}
         self._set_local_storage_item("aircall-cache-last-logged-in", login_data)
 
-        last_user_id = {"data": account.id, "lastUpdated": current_time_milis}
+        last_user_id = {"data": account.id, "lastUpdated": current_time}
         self._set_local_storage_item("aircall-cache-last-user-id", last_user_id)
 
         user_data = {
@@ -76,7 +76,7 @@ class LoginPage(BasePhonePage):
                 "popToFront": True,
                 "language": "en",
             },
-            "lastUpdated": current_time_milis,
+            "lastUpdated": current_time,
         }
         self._set_local_storage_item(f"aircall-cache-user-{account.id}", user_data)
 
