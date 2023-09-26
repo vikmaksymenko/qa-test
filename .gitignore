@@ -4,6 +4,10 @@ accounts.json
 # Selenium grid assets
 infra/assets
 
+# Allure results 
+allure-results
+allure-report
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

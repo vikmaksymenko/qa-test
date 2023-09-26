@@ -34,7 +34,7 @@ This audion check is not implemented in the test task solution, because it's rea
 
 ### Testing infrastructure
 
-In order to run tests on separate containers, I suggest using [Dynamic Selenium grid](https://github.com/SeleniumHQ/docker-selenium#dynamic-grid). It will create separate containers for each test session and terminate them after the session is finished.
+In order to run tests on separate containers, I recommend using [Dynamic Selenium grid](https://github.com/SeleniumHQ/docker-selenium#dynamic-grid). It will create separate containers for each test session and terminate them after the session is finished.
 
 
 #### MacOS and Linux
@@ -76,9 +76,9 @@ In order to run tests, you need to create a test account and create a JSON file 
 }
 ```
 Notice that the user name must match to the one, specified in the feature files.
-The path to the file should be specified in the env variable `PHONE_ACCOUNTS_FILE` or in the `.env`` file in the root of the project.
+The path to the file should be specified in the env variable `PHONE_ACCOUNTS_FILE` or in the `.env` file in the root of the project.
 
-Additionaly, you may update the base URL to the phone by setting `PHONE_BASE_URL` env variable. Default value is `https://phone.aircall.io/`.
+Additionaly, you may update the base URL to the phone app by setting `PHONE_BASE_URL` env variable. Default value is `https://phone.aircall.io/`.
 
 ### Running tests
 
@@ -93,7 +93,7 @@ pip install -r requirements.txt
 python -m pytest .\tests\step_defs\test_incalls.py
 ```
 
-#### Run tests (MaoOS and Linux)
+#### Run tests (MacOS and Linux)
 
 
 ```bash
@@ -131,3 +131,31 @@ python -m pytest .\tests\step_defs\test_api.py
 ```bash
 python -m pytest tests/step_defs/test_api.py
 ```
+
+### Test parallelization
+
+Test parallelization is not implemented due to the API requests rate limit.
+
+## Reporting 
+
+I decided to use [Allure Framework](https://docs.qameta.io/allure/) for generating HTML report. In order to use, add parameter `--alluredir=allure-results` to the pytest command. 
+
+```bash
+python -m pytest  --alluredir=allure-results
+```
+
+In order to generate or open report, install [allure command line tool](https://docs.qameta.io/allure/#_installing_a_commandline). Then, run the following command to generate HTML report:
+
+```bash
+allure generate allure-results
+```
+
+This will generate an HTML report in the `allure-report` folder. 
+
+For generating and opening report, run the following command:
+
+```bash
+allure serve allure-results
+```
+
+It will generate report in the temp folder, start webserver and open the report in the browser.
